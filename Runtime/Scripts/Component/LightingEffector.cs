@@ -125,19 +125,22 @@ namespace LightingEffect
             {
                 return;
             }
-            
             _rectTransform.GetWorldCorners(_corners);
-            
             if (_parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
             {
                 var screenCorners = _corners.Select(corner => 
                     RectTransformUtility.WorldToScreenPoint(null, corner)).ToArray();
-                    
-                // 좌상단 코너를 기준점으로 사용
-                ParentPosition = screenCorners[0];
-                // 크기 계산에는 우하단 코너 사용
-                ParentSize = screenCorners[2] - screenCorners[0];
-                // 스크린 해상도에 맞춰 좌표 보정
+                if (Angle >= 0)
+                {
+                    ParentPosition = screenCorners[0];
+                    ParentSize = screenCorners[2] - screenCorners[0];
+                }
+                else
+                {
+                    ParentPosition = screenCorners[1];
+                    ParentSize = screenCorners[2] - screenCorners[0];
+                }
+                
                 ParentPosition = new Vector2(
                     ParentPosition.x,
                     Screen.height - ParentPosition.y
@@ -145,8 +148,16 @@ namespace LightingEffect
             }
             else
             {
-                ParentPosition = _corners[0];
-                ParentSize = _corners[2] - _corners[0];
+                if (Angle >= 0)
+                {
+                    ParentPosition = _corners[0];
+                    ParentSize = _corners[2] - _corners[0];
+                }
+                else
+                {
+                    ParentPosition = _corners[1];
+                    ParentSize = _corners[2] - _corners[0];
+                }
             }
         }
 

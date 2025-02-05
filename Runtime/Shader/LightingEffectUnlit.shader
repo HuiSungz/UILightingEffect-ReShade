@@ -105,7 +105,11 @@ Shader "Custom/LightingEffectUnlit"
                 
                 float2 position;
                 float angle = radians(_LightAngle);
-                float2 lightDir = float2(cos(angle), sin(angle));
+                // 음수/양수 각도에 따른 방향 벡터 계산
+                float2 lightDir = float2(
+                    cos(angle),
+                    sin(angle)
+                );
                 float2 parentUV;
                 
                 if (_UseScreenCoordinates > 0.5)
@@ -120,8 +124,9 @@ Shader "Custom/LightingEffectUnlit"
                     position = IN.worldPos.xy;
                     parentUV = (position - _ParentPosition.xy) / _ParentRect.xy;
                 }
-
-                float projection = dot(parentUV, abs(lightDir));
+                
+                // 각도의 방향성을 유지하면서 투영 계산
+                float projection = dot(parentUV, lightDir);
                 float lightEffect = 1 - saturate(abs(projection - _Progress) / _LightWidth);
                 float4 lightColor = _LightColor * lightEffect * _LightIntensity;
                 
