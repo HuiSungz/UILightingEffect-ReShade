@@ -70,16 +70,16 @@ namespace LightingEffect
             Initialize();
         }
 
-        private void OnValidate()
-        {
-            if (Application.isPlaying)
-            {
-                return;
-            }
-            
-            Initialize();
-            UpdateTransform();
-        }
+        // private void OnValidate()
+        // {
+        //     if (Application.isPlaying)
+        //     {
+        //         return;
+        //     }
+        //     
+        //     Initialize();
+        //     UpdateTransform();
+        // }
         
         #endregion
 
