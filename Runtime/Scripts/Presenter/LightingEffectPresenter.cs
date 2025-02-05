@@ -74,6 +74,8 @@ namespace LightingEffect.Presenter
 
         private void UpdateView()
         {
+            _data.CheckAndUpdateTransform();
+            
             UpdateViewMaterial();
             UpdateViewProgress();
         }

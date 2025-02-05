@@ -1,15 +1,17 @@
 
-using System;
 using UnityEngine;
 
 namespace LightingEffect.Domain
 {
-    [Serializable]
     public class LightingEffectData
     {
         #region Fields
-
+        
         private readonly LightingEffector _effector;
+        
+        private Vector3 _lastPosition;
+        private Quaternion _lastRotation;
+        private Vector3 _lastScale;
         
         public float Speed => _effector.Speed;
         public float CooldownTime => _effector.CooldownTime;
@@ -21,12 +23,34 @@ namespace LightingEffect.Domain
         public Vector2 ParentPosition => _effector.ParentPosition;
         public Vector2 ParentSize => _effector.ParentSize;
         public float IsOverlay => _effector.IsOverlay;
-
+        
         #endregion
 
         public LightingEffectData(LightingEffector lightingEffector)
         {
             _effector = lightingEffector;
+            CacheTransformValues();
+        }
+
+        private void CacheTransformValues()
+        {
+            _lastPosition = _effector.Position;
+            _lastRotation = _effector.Rotation;
+            _lastScale = _effector.Scale;
+        }
+
+        public bool CheckAndUpdateTransform()
+        {
+            if (_effector.Position != _lastPosition ||
+                _effector.Rotation != _lastRotation ||
+                _effector.Scale != _lastScale)
+            {
+                _effector.UpdateTransform();
+                CacheTransformValues();
+                return true;
+            }
+
+            return false;
         }
     }
 }
