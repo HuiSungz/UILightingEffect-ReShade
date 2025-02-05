@@ -16,7 +16,7 @@ namespace LightingEffect.Presenter
         private float _progress;
         private bool _isWaiting;
         
-        private const float ProgressMax = 1.25f;
+        private const float ProgressMax = 2f;
         
         public LightingEffectPresenter(LightingEffectData data, ILightingEffectView view)
         {
