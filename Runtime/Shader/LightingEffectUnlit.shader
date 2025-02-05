@@ -92,44 +92,49 @@ Shader "Custom/LightingEffectUnlit"
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
-                // 변환: 오브젝트 공간 -> 월드 공간 -> HClip
-                // TODO: HClip을 사용하면 렌더링이 깨지는 경우가 있음
                 OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
                 OUT.worldPos = mul(unity_ObjectToWorld, IN.positionOS).xyz;
-                OUT.localPos = IN.uv;  // 기존 UV (필요시 참고용)
+                OUT.localPos = IN.uv;
                 OUT.color = IN.color * _Color;
                 return OUT;
             }
 
             float4 frag(Varyings IN) : SV_Target
             {
-                // 기본 텍스쳐 색상
                 float4 color = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.localPos) * IN.color;
                 
                 float2 position;
+                float angle = radians(_LightAngle);
+                float2 parentUV;
+                
                 if (_UseScreenCoordinates > 0.5)
                 {
-                    // Overlay 모드: 스크린 좌표계 사용
+                    // Screen Space Overlay 모드
                     position = IN.positionHCS.xy;
+                    
+                    // 스크린 좌표계에서의 상대적 위치 계산 (좌측 기준)
+                    float2 relativePos = (position - _ParentPosition.xy);
+                    
+                    // 좌측 기준점으로 정규화
+                    parentUV = relativePos / _ParentRect.xy;
+                    
+                    // Y축 반전 적용
+                    parentUV.y = 1.0 - parentUV.y;
                 }
                 else
                 {
-                    // Camera 모드: 월드 좌표계 사용
+                    // Camera 모드
                     position = IN.worldPos.xy;
+                    parentUV = (position - _ParentPosition.xy) / _ParentRect.xy;
                 }
                 
-                // 부모 기준 UV 계산
-                float2 parentUV = (position - _ParentPosition.xy) / _ParentRect.xy;
-                
-                // 조명 계산
-                float angle = radians(_LightAngle);
+                // 회전된 좌표계에서의 투영 계산
                 float2 lightDir = float2(cos(angle), sin(angle));
                 float projection = dot(parentUV, lightDir);
                 
                 float lightEffect = 1 - saturate(abs(projection - _Progress) / _LightWidth);
                 float4 lightColor = _LightColor * lightEffect * _LightIntensity;
                 
-                // 최종 색상 계산
                 color.rgb += lightColor.rgb * color.a;
                 
                 return color;
