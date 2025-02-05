@@ -13,13 +13,13 @@ namespace LightingEffect
     {
         #region Fields - Options
         
-        [Range(0.1f, 3f)] public float Speed = 0.7f;
+        [Range(0.1f, 3f)] public float Speed = 1f;
         [Range(0f, 10f)] public float CooldownTime = 2f;
         
         public Color Color = Color.white;
-        [Range(0.01f, 1f)] public float Width = 0.07f;
-        [Range(0f, 5f)] public float Intensity = 0.7f;
-        [Range(-89f, 89f)] public float Angle;
+        [Range(0.01f, 1f)] public float Width = 0.1f;
+        [Range(0f, 5f)] public float Intensity = 1f;
+        [Range(-35f, 35f)] public float Angle;
         
         public bool UseChildApply = true;
         public bool PlayOnStart = true;

@@ -8,7 +8,7 @@ Shader "Custom/LightingEffectUnlit"
         _LightWidth ("Light Width", Range(0, 1)) = 0.1
         _LightIntensity ("Light Intensity", Range(0, 5)) = 1
         _Progress ("Progress", Range(-1, 2)) = 0
-        _LightAngle ("Light Angle", Range(-89, 89)) = 0
+        _LightAngle ("Light Angle", Range(-35, 35)) = 0
         _ParentRect ("Parent Rect", Vector) = (100,100,0,0)
         _ParentPosition ("Parent Position", Vector) = (0,0,0,0)
         _UseScreenCoordinates ("Use Screen Coordinates", Float) = 0
@@ -105,33 +105,23 @@ Shader "Custom/LightingEffectUnlit"
                 
                 float2 position;
                 float angle = radians(_LightAngle);
+                float2 lightDir = float2(cos(angle), sin(angle));
                 float2 parentUV;
                 
                 if (_UseScreenCoordinates > 0.5)
                 {
-                    // Screen Space Overlay 모드
                     position = IN.positionHCS.xy;
-                    
-                    // 스크린 좌표계에서의 상대적 위치 계산 (좌측 기준)
                     float2 relativePos = (position - _ParentPosition.xy);
-                    
-                    // 좌측 기준점으로 정규화
                     parentUV = relativePos / _ParentRect.xy;
-                    
-                    // Y축 반전 적용
                     parentUV.y = 1.0 - parentUV.y;
                 }
                 else
                 {
-                    // Camera 모드
                     position = IN.worldPos.xy;
                     parentUV = (position - _ParentPosition.xy) / _ParentRect.xy;
                 }
-                
-                // 회전된 좌표계에서의 투영 계산
-                float2 lightDir = float2(cos(angle), sin(angle));
-                float projection = dot(parentUV, lightDir);
-                
+
+                float projection = dot(parentUV, abs(lightDir));
                 float lightEffect = 1 - saturate(abs(projection - _Progress) / _LightWidth);
                 float4 lightColor = _LightColor * lightEffect * _LightIntensity;
                 
