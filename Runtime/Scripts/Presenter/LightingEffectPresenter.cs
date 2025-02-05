@@ -13,7 +13,7 @@ namespace LightingEffect.Presenter
         private readonly ILightingEffectView _view;
 
         private float _currentCooldown;
-        private float _progress;
+        private float _progress = -1f;
         private bool _isWaiting;
         
         private const float ProgressMax = 2f;
@@ -54,7 +54,7 @@ namespace LightingEffect.Presenter
             }
             
             _isWaiting = false;
-            _progress = 0f;
+            _progress = -1f;
         }
         
         private void UpdateProgress()
