@@ -1,0 +1,23 @@
+{
+  "name": "com.actionfit.uilighteffector",
+  "version": "1.0.0",
+  "displayName": "[Effector Module] UI Lighting Effect ReShade",
+  "description": "A powerful and customizable UI lighting effect module that adds dynamic lighting animations to UI Image components. This module allows you to create stunning lighting effects including shimmer, glare, and sweep animations with full control over color, intensity, angle, and timing. Features include:\n- Easy-to-use component-based setup\n- Customizable animation parameters (speed, cooldown)\n- Flexible visual controls (color, width, intensity, angle)\n- Support for both single and child UI elements\n- Auto-play capability\n- Editor-friendly custom inspector\n- Optimized for Unity UI (uGUI)\n\nPerfect for creating engaging UI highlights, loading indicators, or attention-drawing effects in your game's user interface.",
+  "unity": "2022.3",
+  "author": {
+    "name": "ActionFit-HS",
+    "email": "huisung@actionfit.kr",
+    "url": "https://github.com/HuiSungz"
+  },
+  "keywords": [
+    "actionfit",
+    "framework",
+    "module",
+    "effect",
+    "effector",
+    "shader",
+    "shader-effect",
+    "lighting",
+    "light-effect"
+  ]
+}
