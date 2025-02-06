@@ -1,5 +1,6 @@
 
 using LightingEffect.Presenter;
+using VContainer;
 using VContainer.Unity;
 
 namespace LightingEffect
@@ -10,6 +11,7 @@ namespace LightingEffect
         
         private readonly ILightingEffectPresenter _presenter;
         
+        [Inject]
         public LightingEffectEntryPoint(ILightingEffectPresenter presenter)
         {
             _presenter = presenter;
