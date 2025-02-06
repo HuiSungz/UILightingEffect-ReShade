@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using VContainer;
 
 namespace LightingEffect.Domain
 {
@@ -26,6 +27,7 @@ namespace LightingEffect.Domain
         
         #endregion
 
+        [Inject]
         public LightingEffectData(LightingEffector lightingEffector)
         {
             _effector = lightingEffector;
