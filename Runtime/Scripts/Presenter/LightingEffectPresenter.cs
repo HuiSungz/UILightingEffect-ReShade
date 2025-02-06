@@ -2,6 +2,7 @@
 using LightingEffect.Domain;
 using LightingEffect.Extension;
 using UnityEngine;
+using VContainer;
 
 namespace LightingEffect.Presenter
 {
@@ -18,6 +19,7 @@ namespace LightingEffect.Presenter
         
         private const float ProgressMax = 2f;
         
+        [Inject]
         public LightingEffectPresenter(LightingEffectData data, ILightingEffectView view)
         {
             _data = data;
