@@ -19,7 +19,7 @@ namespace LightingEffect
             }
 
             builder.RegisterComponent(effector);
-            builder.Register<LightingEffectData>(Lifetime.Scoped);
+            builder.Register<LightingEffectData>(Lifetime.Scoped).WithParameter(effector);
             
             if(!TryGetComponent<LightingEffectView>(out var viewBehavior))
             {
